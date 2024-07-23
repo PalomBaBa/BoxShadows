@@ -15,6 +15,7 @@ const styleData = defineModel();
   overflow: auto;
   width: 400px;
   padding: 1rem;
+  border-right: 1px solid #b9b9b9;
   .customizeShadowsBox_title{
     font-weight: 900;
     display: flex;

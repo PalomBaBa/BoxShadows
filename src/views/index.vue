@@ -44,7 +44,7 @@ function showCssCode() {
         <CustomizeShadows v-model="styleData" />
       </div>
       <div class="boxShadow_box_content_canvas">
-        <RenderArea styleData="styleData" />
+        <RenderArea :styleData="styleData" />
       </div>
       <div class="boxShadow_box_content_right">
         <BoxProperties v-model="styleData" />

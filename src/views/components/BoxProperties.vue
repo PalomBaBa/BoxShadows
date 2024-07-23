@@ -2,7 +2,6 @@
 // import { ref } from 'vue'
 
 const styleData = defineModel()
-console.log('styleData: ', styleData.value);
 
 </script>
 
@@ -81,6 +80,7 @@ console.log('styleData: ', styleData.value);
   width: 400px;
   height: calc(100vh - 64px - 64px);
   padding: 1rem;
+  border-left: 1px solid #b9b9b9;
 
   .boxPropertiesBox_title {
     font-weight: 900;
