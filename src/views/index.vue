@@ -1,9 +1,12 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import CustomizeShadows from './components/CustomizeShadows.vue';
 import RenderArea from './components/RenderArea.vue';
 import BoxProperties from './components/BoxProperties.vue';
+import CopyDialog from './components/CopyDialog.vue';
 
+
+const copyDialogRef = ref(null);
 
 const styleData = ref({
   canvasBgColor: '#f3f4f6',
@@ -12,11 +15,13 @@ const styleData = ref({
   borderRadius: 10,
   height: 20,
   width: 20,
+  boxShadow: '',
   shadows: [
     {
+      key: Date.now(),
       active: true,
       inset: false,
-      horizontalOffset: 0,
+      horizontalOffset: 10,
       verticalOffset: 0,
       blurRadius: 50,
       spreadRaduis: 0,
@@ -27,7 +32,54 @@ const styleData = ref({
 
 function showCssCode() {
   console.log(styleData.value);
+  copyDialogRef.value.open()
+
 }
+
+function handleBoxShadow() {
+  let data = '';
+  if (styleData.value.shadows.length && styleData.value.shadows.length > 1) {
+    styleData.value.shadows.forEach((item, index) => {
+      if (item.active) {
+        if (item.inset) {
+          if (index + 1 === styleData.value.shadows.length) {
+            data += `inset ${item.horizontalOffset}px ${item.verticalOffset}px ${item.blurRadius}px ${item.spreadRaduis}px ${item.color}`
+          } else {
+            data += `inset ${item.horizontalOffset}px ${item.verticalOffset}px ${item.blurRadius}px ${item.spreadRaduis}px ${item.color},`
+          }
+        } else {
+          if (index + 1 === styleData.value.shadows.length) {
+            data += `${item.horizontalOffset}px ${item.verticalOffset}px ${item.blurRadius}px ${item.spreadRaduis}px ${item.color}`
+          } else {
+            data += `${item.horizontalOffset}px ${item.verticalOffset}px ${item.blurRadius}px ${item.spreadRaduis}px ${item.color},`
+          }
+        }
+      }
+    })
+  } else {
+    styleData.value.shadows.forEach((item, index) => {
+      if (item.active) {
+        if (item.inset) {
+          data += `inset ${item.horizontalOffset}px ${item.verticalOffset}px ${item.blurRadius}px ${item.spreadRaduis}px ${item.color}`
+        } else {
+          data += `${item.horizontalOffset}px ${item.verticalOffset}px ${item.blurRadius}px ${item.spreadRaduis}px ${item.color}`
+        }
+      }
+    })
+  }
+  console.log('data: ', data);
+  styleData.value.boxShadow = data
+}
+
+watch(() => styleData.value.shadows, () => {
+  handleBoxShadow()
+}, {
+  deep: true
+})
+
+onMounted(() => {
+  handleBoxShadow()
+})
 </script>
 
 <template>
@@ -54,6 +106,9 @@ function showCssCode() {
     <div class="boxShadow_box_footer">
 
     </div>
+
+
+    <CopyDialog v-model="styleData" ref="copyDialogRef" />
   </div>
 </template>
 

@@ -16,6 +16,10 @@ watch(() => props.styleData, val => {
   console.log('val: ', val);
   styleData.value = val;
 })
+
+function handleBoxShadow() {
+  console.log(styleData.value)
+}
 </script>
 
 <template>
@@ -25,13 +29,15 @@ watch(() => props.styleData, val => {
     border: `1px solid ${styleData.borderColor}`,
     width: `${styleData.width}rem`,
     height: `${styleData.height}rem`,
-    borderRadius: `${styleData.borderRadius}rem`
+  borderRadius: `${styleData.borderRadius}rem`,
+    boxShadow:`${styleData.boxShadow}`
   }"></div>
   </div>
 </template>
 
 <style>
 .renderAreaBox {
+  min-width: 800px;
   width: calc(100vw - 400px - 400px);
   height: calc(100vh - 64px - 64px);
   display: flex;
